@@ -4,6 +4,9 @@ class nvidia::cuda::ubuntu {
   include package::virtual
 
   realize(
+    Package["g++-4.3"],
+    Package["g++-4.4"],
+    Package["gcc-4.3"],
     Package["gcc-4.4"],
     Package["libcr-dev"],
   ) 
