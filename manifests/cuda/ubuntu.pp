@@ -26,10 +26,4 @@ class nvidia::cuda::ubuntu {
     source => "puppet://$server/modules/nvidia/cuda/rc.cuda",
   }
 
-  ubuntu::alternative { "/usr/bin/gcc-4.4":
-    alternative => "gcc",
-    priority    => "440",
-    require     => Package["gcc-4.4"],
-  }
-
 }
