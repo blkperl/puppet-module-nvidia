@@ -18,8 +18,8 @@ class nvidia::cuda::ubuntu {
   }
 
   file { "nvidia/cuda/rc.cuda":
-    path   => "/etc/init.d/nvidia-cuda",
     ensure => file,
+    path   => "/etc/init.d/nvidia-cuda",
     owner  => "0",
     group  => "0",
     mode   => "755",
@@ -28,7 +28,7 @@ class nvidia::cuda::ubuntu {
 
   ubuntu::alternative { "/usr/bin/gcc-4.4":
     alternative => "gcc",
-    priority    => 440,
+    priority    => "440",
     require     => Package["gcc-4.4"],
   }
 
