@@ -7,14 +7,18 @@ class nvidia::cuda::ubuntu {
     Package["g++-4.3"],
     Package["g++-4.4"],
     Package["gcc-4.3"],
-    Package["gcc-4.4"],
+    package["gcc-4.4"],
     Package["libcr-dev"],
-  ) 
+    Package["nvidia-current"],
+  )
 
   service { "nvidia-cuda":
-    enable    => true,
-    hasstatus => true,
-    require   => File["nvidia/cuda/rc.cuda"],
+    enable      => true,
+    hasstatus   => true,
+    subscribe   => [
+      Package[nvidia-current],
+      File["nvidia/cuda/rc.cuda"]
+    ],
   }
 
   file { "nvidia/cuda/rc.cuda":
