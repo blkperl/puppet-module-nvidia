@@ -1,7 +1,7 @@
-class nvidia::cuda::ubuntu {
-  include nvidia
+class nvidia::cuda::ubuntu (
+  nvidia_module = undef
+) {
   include package::virtual
-  include ubuntu
 
   realize(
     Package["g++-4.3"],
@@ -16,19 +16,23 @@ class nvidia::cuda::ubuntu {
       enable      => true,
       hasstatus   => true,
       subscribe   => [
-        Package[nvidia-current],
         File["nvidia/cuda/rc.cuda"],
       ],
   }
 
+  $nvidia = $nvidia_module ? {
+    undef   => "nvidia-current",
+    default => $nvidia_module,
+  }
+
   file {
     "nvidia/cuda/rc.cuda":
-      ensure => file,
-      path   => "/etc/init.d/nvidia-cuda",
-      owner  => "0",
-      group  => "0",
-      mode   => "755",
-      source => "puppet://$server/modules/nvidia/cuda/rc.cuda",
+      ensure  => file,
+      path    => "/etc/init.d/nvidia-cuda",
+      owner   => "0",
+      group   => "0",
+      mode    => "755",
+      content => template("nvidia/rc.cuda.erb");
   }
 
 }
