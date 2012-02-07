@@ -7,8 +7,11 @@ class nvidia::cuda::ubuntu (
     Package["g++-4.3"],
     Package["g++-4.4"],
     Package["gcc-4.3"],
-    package["gcc-4.4"],
+    Package["gcc-4.4"],
     Package["libcr-dev"],
+    Package["libglut3-dev"],
+    Package["libxi-dev"],
+    Package["libxmu-dev"],
   )
 
   service {
