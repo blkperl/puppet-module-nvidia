@@ -14,6 +14,8 @@ class nvidia::cuda::ubuntu (
     Package["libxmu-dev"],
   )
 
+  apt::ppa { 'ppa:ubuntu-x-swat/x-updates': }
+
   service {
     "nvidia-cuda":
       enable      => true,
