@@ -1,7 +1,13 @@
 class nvidia::cuda::ubuntu (
-  nvidia_module = undef
+  nvidia_module = 'nvidia-current'
 ) {
   include package::virtual
+
+  if defined(Class['nvidia::driver::ubuntu']) {
+    $service_require = Package['nvidia::driver']
+  } else {
+    $service_require = undef
+  }
 
   realize(
     Package["g++-4.3"],
@@ -14,30 +20,21 @@ class nvidia::cuda::ubuntu (
     Package["libxmu-dev"],
   )
 
-  apt::ppa { 'ppa:ubuntu-x-swat/x-updates': }
-
-  service {
-    "nvidia-cuda":
-      enable      => true,
-      hasstatus   => true,
-      subscribe   => [
-        File["nvidia/cuda/rc.cuda"],
-      ],
+  service { "nvidia::cuda":
+    name      => 'nvidia-cuda',
+    enable    => true,
+    hasstatus => true,
+    subscribe => File["nvidia/cuda/rc.cuda"],
+    require   => $service_require
   }
 
-  $nvidia = $nvidia_module ? {
-    undef   => "nvidia-current",
-    default => $nvidia_module,
-  }
-
-  file {
-    "nvidia/cuda/rc.cuda":
-      ensure  => file,
-      path    => "/etc/init.d/nvidia-cuda",
-      owner   => "0",
-      group   => "0",
-      mode    => "755",
-      content => template("nvidia/rc.cuda.erb");
+  file { "nvidia/cuda/rc.cuda":
+    ensure  => file,
+    path    => "/etc/init.d/nvidia-cuda",
+    owner   => "0",
+    group   => "0",
+    mode    => "755",
+    content => template("nvidia/rc.cuda.erb");
   }
 
 }

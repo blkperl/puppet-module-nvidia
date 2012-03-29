@@ -1,8 +1,18 @@
-class nvidia::driver {
-  include package::virtual
+class nvidia::driver (
+  ensure         = $nvidia::params::ensure,
+  driver_package = $nvidia::params::driver_package
+) inherits nvidia::params {
 
   case $operatingsystem {
-    "ubuntu": { realize(Package["nvidia-current"])              }
-    default:  { err("nvidia does not support $operatingsystem") }
+    "ubuntu": {
+      class { "nvidia::driver::ubuntu":
+        ensure         => $ensure,
+        driver_package => $driver_package,
+      }
+    }
+    default: {
+      fail("nvidia::driver does not support $operatingsystem")
+    }
   }
+
 }

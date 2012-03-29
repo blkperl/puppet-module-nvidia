@@ -2,7 +2,7 @@
 
 PATH=/sbin:/bin:/usr/bin:$PATH
 
-/sbin/modprobe <%= nvidia %>
+/sbin/modprobe <%= nvidia_module %>
 
 if [ "$?" -eq 0 ]; then
 
