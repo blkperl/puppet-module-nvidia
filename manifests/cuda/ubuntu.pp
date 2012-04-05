@@ -1,7 +1,6 @@
 class nvidia::cuda::ubuntu (
   nvidia_module = 'nvidia-current'
 ) {
-  include package::virtual
 
   if defined(Class['nvidia::driver::ubuntu']) {
     $service_require = Package['nvidia::driver']
@@ -9,7 +8,7 @@ class nvidia::cuda::ubuntu (
     $service_require = undef
   }
 
-  realize(
+  singleton_resources(
     Package["g++-4.3"],
     Package["g++-4.4"],
     Package["gcc-4.3"],
