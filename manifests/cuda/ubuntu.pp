@@ -8,17 +8,6 @@ class nvidia::cuda::ubuntu (
     $service_require = undef
   }
 
-  singleton_resources(
-    Package["g++-4.3"],
-    Package["g++-4.4"],
-    Package["gcc-4.3"],
-    Package["gcc-4.4"],
-    Package["libcr-dev"],
-    Package["libglut3-dev"],
-    Package["libxi-dev"],
-    Package["libxmu-dev"],
-  )
-
   service { "nvidia::cuda":
     name      => 'nvidia-cuda',
     enable    => true,
