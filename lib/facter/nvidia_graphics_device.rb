@@ -17,7 +17,7 @@ Facter.add(:nvidia_graphics_device) do
     sysinfo.each_line do |line|
       vendor << fields.match(line)[1]
       device << fields.match(line)[2]
-    end
+    end unless sysinfo.nil?
     vendor.include?('nVidia Corporation')
   end
 end
